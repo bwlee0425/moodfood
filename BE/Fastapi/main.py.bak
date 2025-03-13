@@ -1,0 +1,30 @@
+from fastapi import FastAPI
+from pydantic import BaseModel
+from models.t5_recommendation import T5Recommender
+from api.weather import WeatherAPI
+from api.external import ExternalAPI
+
+app = FastAPI()
+recommender = T5Recommender()
+weather_api = WeatherAPI()
+external_api = ExternalAPI()
+
+class MoodInput(BaseModel):
+    mood: str
+    lat: float = 37.5665  # 기본값 (서울)
+    lon: float = 126.9780
+
+@app.post("/recommend")
+async def recommend_food(input: MoodInput):
+    weather = weather_api.get_weather(input.lat, input.lon)
+    mood_with_weather = f"{input.mood}, weather: {weather}"
+    food = recommender.recommend(mood_with_weather)
+    place = external_api.get_place(food, input.lat, input.lon)
+    recipe_link = external_api.get_recipe_link(food)
+    return {
+        "mood": input.mood,
+        "weather": weather,
+        "recommended_food": food,
+        "place": place,
+        "recipe_link": recipe_link
+    }

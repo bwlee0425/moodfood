@@ -1,7 +1,11 @@
+# fastapi + t5 install
+
 fastapi==0.115.0
+Jinja2==3.1.5
 uvicorn==0.30.6
 pydantic==2.9.2
 transformers==4.44.2  # Hugging Face의 T5 모델 사용
 torch==2.4.1          # T5 모델 실행을 위한 PyTorch
 requests==2.32.3      # 외부 API 호출
+sentencepiece==0.2.0
 python-dotenv==1.0.1  # 환경 변수 관리 (API 키 등)

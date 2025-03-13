@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Mood Food</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .container { max-width: 600px; margin: auto; }
+        input[type="text"] { width: 70%; padding: 8px; }
+        button { padding: 8px 16px; }
+        .result { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mood Food</h1>
+        <form method="POST" action="/recommend">
+            <label for="mood">오늘 기분이 어떠신가요?</label><br>
+            <input type="text" id="mood" name="mood" placeholder="예: 나 힘들어" required>
+            <button type="submit">추천받기</button>
+        </form>
+        {% if result %}
+            <div class="result">
+                <h3>추천 결과</h3>
+                <p><strong>기분:</strong> {{ result.mood }}</p>
+                <p><strong>날씨:</strong> {{ result.weather }}</p>
+                <p><strong>추천 음식:</strong> {{ result.recommended_food }}</p>
+                <p><strong>맛집:</strong> {{ result.place.place }} ({{ result.place.distance }})</p>
+                <p><strong>레시피:</strong> <a href="{{ result.recipe_link }}" target="_blank">여기</a></p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
